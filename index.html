@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Línea de Tiempo de la Primera República Dominicana</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #b8e1ff 0%, #dcc0ff 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #5f4b8b;
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .author {
+            font-style: italic;
+            color: #5f4b8b;
+            margin-top: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .timeline-container {
+            overflow-x: auto;
+            margin-bottom: 40px;
+            padding: 10px 0;
+        }
+        .timeline {
+            display: flex;
+            position: relative;
+            margin: 60px 0;
+            padding: 30px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, #ffafbd, #b8e1ff, #dcc0ff);
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: -1;
+            border-radius: 3px;
+        }
+        .timeline-item {
+            min-width: 220px;
+            max-width: 220px;
+            margin: 0 15px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        .timeline-item:hover {
+            transform: translateY(-5px);
+        }
+        .timeline-item:nth-child(odd) {
+            margin-bottom: 120px;
+        }
+        .timeline-item:nth-child(even) {
+            margin-top: 120px;
+        }
+        .timeline-date {
+            font-weight: bold;
+            color: #5f4b8b;
+            margin-bottom: 8px;
+            font-size: 16px;
+            text-shadow: 0px 0px 1px rgba(0,0,0,0.1);
+        }
+        .timeline-content {
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            margin-bottom: 15px;
+            min-height: 130px;
+            transition: box-shadow 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .timeline-content:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        .timeline-content h3 {
+            margin-top: 0;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .timeline-content p {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .global {
+            background-color: #b8e1ff;
+            border-color: #7eb3ff;
+        }
+        .global h3 {
+            color: #3a6ea5;
+        }
+        .nacional {
+            background-color: #ffafbd;
+            border-color: #ff8fa3;
+        }
+        .nacional h3 {
+            color: #a5546c;
+        }
+        .concept {
+            background-color: #dcc0ff;
+            border-color: #c194ff;
+        }
+        .concept h3 {
+            color: #6247aa;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .symbol-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            margin: 0 auto 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+            border: 3px solid;
+            transition: transform 0.3s ease;
+        }
+        .symbol-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        .nacional .symbol-icon {
+            border-color: #ff8fa3;
+        }
+        .global .symbol-icon {
+            border-color: #7eb3ff;
+        }
+        .concept .symbol-icon {
+            border-color: #c194ff;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffafbd 0%, #b8e1ff 100%);
+            border-radius: 15px;
+            font-size: 14px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            color: #5f4b8b;
+            font-weight: 600;
+        }
+        .timeline-item::after {
+            content: '';
+            width: 2px;
+            height: 50px;
+            background-color: rgba(95, 75, 139, 0.3);
+            position: absolute;
+            left: 50%;
+            z-index: 1;
+        }
+        .timeline-item:nth-child(odd)::after {
+            top: -50px;
+        }
+        .timeline-item:nth-child(even)::after {
+            bottom: -50px;
+        }
+        .timeline-point {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #5f4b8b;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .timeline-item:nth-child(odd) .timeline-point {
+            top: -56px;
+        }
+        .timeline-item:nth-child(even) .timeline-point {
+            bottom: -56px;
+        }
+        @media (max-width: 768px) {
+            .timeline-item {
+                min-width: 180px;
+                max-width: 180px;
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Línea de Tiempo de la Primera República Dominicana</h1>
+        <p class="author">Elaborado por: Wanyer Ramirez 5TOA DAAI</p>
+    </header>
+    
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color nacional"></div>
+            <span>Eventos Nacionales</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color global"></div>
+            <span>Contexto Global</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color concept"></div>
+            <span>Conceptos Clave</span>
+        </div>
+    </div>
+    
+    <div class="timeline-container">
+        <div class="timeline">
+            <!-- Eventos y conceptos organizados cronológicamente -->
+            
+            <!-- EVENTO 1 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">🇩🇴</div>
+                <div class="timeline-content nacional">
+                    <div class="timeline-date">27 de Febrero de 1844</div>
+                    <h3>Proclamación de la Independencia</h3>
+                    <p>Los Trinitarios, liderados por Juan Pablo Duarte, proclamaron la independencia de República Dominicana, separándose de Haití después de 22 años de ocupación.</p>
+                </div>
+            </div>
+            
+            <!-- CONCEPTO 1 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">⚜️</div>
+                <div class="timeline-content concept">
+                    <div class="timeline-date">1844</div>
+                    <h3>Soberanía Nacional</h3>
+                    <p>Principio fundamental que estableció el derecho del pueblo dominicano a gobernarse sin intervención extranjera, base ideológica de la revolución independentista.</p>
+                </div>
+            </div>
+            
+            <!-- EVENTO 2 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">📜</div>
+                <div class="timeline-content nacional">
+                    <div class="timeline-date">14 de Noviembre de 1844</div>
+                    <h3>Primera Constitución Dominicana</h3>
+                    <p>Promulgación de la primera carta magna, estableciendo una república con división de poderes, aunque otorgó poderes extraordinarios al presidente Pedro Santana.</p>
+                </div>
+            </div>
+            
+            <!-- CONTEXTO GLOBAL 1 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">🌍</div>
+                <div class="timeline-content global">
+                    <div class="timeline-date">1848</div>
+                    <h3>Revoluciones en Europa</h3>
+                    <p>Ola revolucionaria en Europa conocida como "La Primavera de los Pueblos" influyó indirectamente en el pensamiento político dominicano y las tensiones con potencias extranjeras.</p>
+                </div>
+            </div>
+            
+            <!-- CONCEPTO 2 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">👑</div>
+                <div class="timeline-content concept">
+                    <div class="timeline-date">1844-1861</div>
+                    <h3>Caudillismo</h3>
+                    <p>Sistema político dominante donde líderes militares carismáticos (caudillos) como Santana y Báez concentraban el poder, provocando inestabilidad política.</p>
+                </div>
+            </div>
+            
+            <!-- EVENTO 3 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">⚔️</div>
+                <div class="timeline-content nacional">
+                    <div class="timeline-date">1849-1855</div>
+                    <h3>Invasiones Haitianas</h3>
+                    <p>Serie de intentos de reconquista por parte de Haití bajo el emperador Faustin Soulouque, repelidos por fuerzas dominicanas lideradas por Pedro Santana.</p>
+                </div>
+            </div>
+            
+            <!-- CONCEPTO 3 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">🤝</div>
+                <div class="timeline-content concept">
+                    <div class="timeline-date">1844-1861</div>
+                    <h3>Los Trinitarios</h3>
+                    <p>Sociedad secreta fundada por Duarte que organizó la independencia y promovió los ideales republicanos, aunque sus líderes fueron marginados del poder.</p>
+                </div>
+            </div>
+            
+            <!-- CONTEXTO GLOBAL 2 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">🦅</div>
+                <div class="timeline-content global">
+                    <div class="timeline-date">1853</div>
+                    <h3>Expansionismo Estadounidense</h3>
+                    <p>La Compra de Gadsden y la expansión de EE.UU. reflejaron su creciente interés en el Caribe, presionando a la joven república dominicana.</p>
+                </div>
+            </div>
+            
+            <!-- EVENTO 4 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">🏛️</div>
+                <div class="timeline-content nacional">
+                    <div class="timeline-date">1856-1858</div>
+                    <h3>Gobierno de Buenaventura Báez</h3>
+                    <p>Segunda presidencia de Báez, marcada por crisis económica, corrupción y primeros intentos de anexión a potencias extranjeras para garantizar la seguridad nacional.</p>
+                </div>
+            </div>
+            
+            <!-- CONCEPTO 4 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">🤲</div>
+                <div class="timeline-content concept">
+                    <div class="timeline-date">1844-1861</div>
+                    <h3>Política de reconocimiento</h3>
+                    <p>Esfuerzo diplomático dominicano por obtener reconocimiento internacional para garantizar su soberanía frente a las amenazas externas, especialmente de Haití.</p>
+                </div>
+            </div>
+            
+            <!-- EVENTO 5 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">💰</div>
+                <div class="timeline-content nacional">
+                    <div class="timeline-date">1859</div>
+                    <h3>Crisis económica</h3>
+                    <p>Severa recesión económica por caída de precios de exportaciones y endeudamiento, que debilitó la estructura estatal y preparó el terreno para la anexión.</p>
+                </div>
+            </div>
+            
+            <!-- CONTEXTO GLOBAL 3 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">⚔️</div>
+                <div class="timeline-content global">
+                    <div class="timeline-date">1861</div>
+                    <h3>Inicio de la Guerra Civil Estadounidense</h3>
+                    <p>El conflicto interno en EE.UU. disminuyó temporalmente su influencia en el Caribe, permitiendo a España retomar presencia en sus antiguas colonias.</p>
+                </div>
+            </div>
+            
+            <!-- EVENTO 6 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">🇪🇸</div>
+                <div class="timeline-content nacional">
+                    <div class="timeline-date">18 de Marzo de 1861</div>
+                    <h3>Anexión a España</h3>
+                    <p>Pedro Santana, invocando el artículo 210 de la Constitución, anexó la República Dominicana a España, finalizando la Primera República y convirtiendo el país en provincia española.</p>
+                </div>
+            </div>
+            
+            <!-- CONCEPTO 5 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">📜</div>
+                <div class="timeline-content concept">
+                    <div class="timeline-date">1861</div>
+                    <h3>Artículo 210 Constitucional</h3>
+                    <p>Controvertida disposición que otorgó poderes extraordinarios a Santana para "hacer la paz y celebrar tratados", utilizada para justificar la anexión a España.</p>
+                </div>
+            </div>
+            
+            <!-- CONCEPTO 6 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">💡</div>
+                <div class="timeline-content concept">
+                    <div class="timeline-date">1844-1861</div>
+                    <h3>Republicanismo</h3>
+                    <p>Ideología política que inspiró la independencia dominicana y defendía la soberanía popular, aunque en la práctica fue limitada por el autoritarismo de los caudillos.</p>
+                </div>
+            </div>
+            
+            <!-- CONCEPTO 7 -->
+            <div class="timeline-item">
+                <div class="timeline-point"></div>
+                <div class="symbol-icon">🌐</div>
+                <div class="timeline-content concept">
+                    <div class="timeline-date">1844-1861</div>
+                    <h3>Identidad Nacional</h3>
+                    <p>Proceso de construcción de una identidad dominicana diferenciada de la haitiana, basada en la lengua española, la religión católica y la herencia hispánica.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Esta línea de tiempo incluye los 13 elementos requeridos: 6 eventos históricos nacionales, 3 contextos globales y 7 conceptos clave de la Primera República Dominicana (1844-1861).</p>
+    </div>
+</body>
+</html>
